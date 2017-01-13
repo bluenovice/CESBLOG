@@ -1,0 +1,120 @@
+
+
+{% block content %}
+<h2> All User's Blog </h2>
+{% for blog in blogs %}
+<div class="post" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+     xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="post-heading">
+        <div class="post-title">
+            {{ blog.title }}
+        </div>
+        <div class="post-date">
+            {{ blog.created.strftime("%b %d, %Y") }}&nbsp;&nbsp;&nbsp;by:{{ blog.username }}
+        </div>
+    </div>
+    <div class="post-content">
+        {{ blog.content | safe }}
+    </div>
+    <br>
+    {{ blog.like_count | safe }} users&nbsp;<a style="cursor: pointer" v-on:click="like({{ blog.id }},1)">Like</a>
+    &nbsp;&nbsp;&nbsp; {{ blog.dislike_count | safe }}
+    users &nbsp;<a style="cursor: pointer" v-on:click="like({{ blog.id }},0)">dislike</a>
+    <br>
+    <textarea class="content" id="{{ blog.id }}" style="width: 1000px;height: 60px;" cols="10"
+              rows="3" placeholder="please input comment in there"></textarea>
+    <a class="addComment" style="cursor: pointer">add a
+        comment</a>
+    <br>
+    <br>
+    <b>comments:</b>
+    <div class="post-content">
+        {% for comment in blog.comments %}
+        {{ comment.username | safe }}:{{ comment.content | safe }} {{ comment.last_modified | safe }}&nbsp;<a
+            class="updateComment" onfocus="{{ comment.id | safe }}" class="" style="cursor: pointer">update</a>&nbsp;&nbsp;<a
+            class="deleteComment" onfocus="{{ comment.id | safe }}" style="cursor: pointer">delete</a>
+        <br>
+        {% endfor %}
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+{% endfor %}
+
+<script>
+    var page = new Vue({
+        el: '#page',
+        methods: {
+            like: function (blog_id, like_value) {
+                //做like操作
+                $.post("/like", {blog_id: blog_id, islike: like_value}, function (result) {
+                    if (check_login(result)) {
+                        alert(result)
+                        refresh();
+                    }
+                })
+            }
+        }
+    })
+    $(".addComment").click(function () {
+        var blog_id = $(this).prev(".content").attr("id");
+        var content = $(this).prev(".content").val();
+        $.post("/comment", {content: content, blog_id: blog_id}, function (result) {
+            refreshWhenSuccess(result);
+        })
+    })
+    //update comment
+    $(".updateComment").click(function () {
+        var comment_id = $(this).attr("onfocus");
+        var content = $(this).parent().parent(".post").children(".content").val()
+        $.ajax({
+            type: "PUT",
+            url: "/comment",
+            data: {id: comment_id, content: content},
+            success: function (result) {
+                refreshWhenSuccess(result);
+            },
+            error: function (result) {
+                alert("sorry,some errors");
+            }
+        });
+    })
+    $(".deleteComment").click(function () {
+        var comment_id = $(this).attr("onfocus");
+        $.ajax({
+            type: "DELETE",
+            url: "/comment?id=" + comment_id,
+            success: function (result) {
+                refreshWhenSuccess(result);
+            },
+            error: function (result) {
+                alert("sorry,some errors");
+            }
+        });
+    })
+    function check_login(result) {
+        if (result == 'please login...') {
+            alert("please login");
+            window.location.href = "/login";
+            return false;
+        }
+        return true;
+    }
+    function refresh() {
+        window.location.href = "/allblog";
+    }
+    function refreshWhenSuccess(result) {
+        if (check_login(result)) {
+            alert(result);
+            if (result == 'success') {
+                refresh();
+            }
+        }
+    }
+</script>
+{% endblock %}
+
+
+

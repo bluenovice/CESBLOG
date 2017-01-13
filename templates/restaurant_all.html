@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>restaurants</title>
+</head>
+<body>
+<h1 style="text-align: center;">Restaurants</h1>
+<br><br>
+<p>welcome {{session_user_name}}</p>
+{%for i in restaurant %}
+<p style="background:#898989; box-shadow:3px #565656">{{i.name}}<span style="padding-left: 6px; text-align: right;"><a href="{{url_for('Menu_Item',restaurant_id = i.id) }}" style="float: right;">MenuItems</a></span></p>
+<span><a href="{{url_for('Edit_Restaurant',restaurant_id= i.id)}}">Edit</a>
+<a href="{{url_for('Delete_Restaurant', restaurant_id= i.id)}}">Delete</a>
+</span>
+<p>{{i.description}}</p>
+{% endfor %}
+<h3><a href="{{url_for('new_Restaurant')}}">Make new reastaurant</a></h3>
+
+</body>
+</html>

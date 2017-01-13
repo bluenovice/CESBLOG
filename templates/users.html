@@ -1,0 +1,22 @@
+<TABLE BORDER="5"    WIDTH="50%"   CELLPADDING="4" CELLSPACING="3">
+   <TR>
+      <TH COLSPAN="2"><BR><H3>USER DETAILS</H3>
+      </TH>
+   </TR>
+   <TR>
+      <th>id</th>
+      <TH>username</TH>
+      <TH>password</TH>
+      <th>email</th>
+      <th>time_created</th>
+   </TR>
+   {% for i in user%}
+   <TR ALIGN="CENTER">
+      <TD>{{i.id}}</TD>
+      <TD>{{i.name}}</TD>
+      <td>{{i.password}}</td>
+      <td>{{i.email}}</td>
+      <td>{{i.time_created}}</td>
+   </TR>
+   {% endfor %}
+</TABLE>

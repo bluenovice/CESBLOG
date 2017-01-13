@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Validation Form</title>
+
+	<link rel="stylesheet" href="{{url_for('static',filename='demo.css')}}">
+	<link rel="stylesheet" href=".{{url_for('static',filename='form-validation.css')}}">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+</head>
+
+
+	<header>
+		<h1>Put any doubt about our college</h1>
+        <a href="http://tutorialzine.com/2015/07/freebie-7-clean-and-responsive-forms/">BACK</a>
+    </header>
+
+    <div class="main-content">
+
+        <!-- You only need this form and the form-validation.css -->
+
+        <form class="form-validation" method="post" action="{{url_for('questions_post')}}" >
+
+            <div class="form-title-row">
+                <h1>Post questions</h1>
+            </div>
+
+            <div class="form-row form-input-name-row">
+
+               <textarea name="text" style="border: 3px solid #cccccc;padding: 5px;
+                        font-family: Tahoma, sans-serif; width: 100%;">question</textarea>
+
+                <!--
+                    Add these three elements to every form row. They will be shown by the
+                    .form-valid-data and .form-invalid-data classes (see the JS for an example).
+                -->
+
+                
+            <div class="form-row">
+
+                <button type="submit">Submit</button>
+                <div class="form-title-row" style="color: orange">
+                <br>
+                <h4>Points before posting</h4>
+                <ol>
+                    <li>
+                        Question are to be posted with specific meaning
+                    </li>
+                    <li>
+                        No use of abuse words should be done
+                    </li>
+                    <li>
+                        Be a fatefull member by trying to answer other users question
+                    </li>
+
+                </ol>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+
+        // Here is how to show an error message next to a form field
+
+        var errorField = $('.form-input-name-row');
+
+        // Adding the form-invalid-data class will show
+        // the error message and the red x for that field
+
+        errorField.addClass('form-invalid-data');
+        errorField.find('.form-invalid-data-info').text('Please enter your name');
+
+
+        // Here is how to mark a field with a green check mark
+
+        var successField = $('.form-input-email-row');
+
+        successField.addClass('form-valid-data');
+    });
+
+</script>
+
+</body>
+
+</html>

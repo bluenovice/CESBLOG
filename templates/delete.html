@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Reastaurant</title>
+</head>
+<body>
+	<p>Are you sure you want to delete {{restaurant.name}} Restaurant</p>
+	<form action="{{url_for('Delete_Restaurant', restaurant_id = restaurant.id)}}" method="post">
+		<input type="submit" name="sure">
+	</form>
+</body>
+</html>
