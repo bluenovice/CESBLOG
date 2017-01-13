@@ -1,0 +1,1 @@
+web: python dealscraper/project.py
