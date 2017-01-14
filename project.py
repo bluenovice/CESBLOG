@@ -4,17 +4,23 @@ from sqlalchemy import desc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup2 import Base, Users, Posts, Comments, Questions, Comments_questions
-from bcrypt import bcrypt
+import random
+import string
+import hashlib
 
+def make_salt():
+	return ''.join(random.choice(string.ascii_letters) for x in range(5))
 
-
-def hash_pass(s):
-	return bcrypt.hashpw(s,bcrypt.gensalt())
+def hash_pass(s,salt= None):
+	if not salt:
+		salt = make_salt()
+	h = hashlib.sha256(s.encode('utf-8') + salt.encode('utf-8')).hexdigest()
+	return "%s,%s"%(h,salt)
 
 def check_secure_pass(s,password):
-	gen_hash = bcrypt.hashpw(s,password)
-	if password == gen_hash:
-		return gen_hash
+	salt = password.split(',')[1]
+	return password == hash_pass(s,salt)
+
 
 app = Flask(__name__)
 engine = create_engine('sqlite:///Blog.db')
@@ -196,7 +202,7 @@ def login():
 
 			if check_password:
 				session['username'] = name
-				flash('WELCOME BACK :-)')
+				flash('WELCOME BACK %s'%name)
 				return redirect(url_for('index'))
 
 			return render_template('login.html', error =
