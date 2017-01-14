@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from database_setup2 import Base, Users, Posts, Comments, Questions, Comments_questions
 import random
 import string
+import os
 import hashlib
 
 def make_salt():
