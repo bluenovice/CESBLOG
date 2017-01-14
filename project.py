@@ -310,4 +310,5 @@ def users():
 if __name__ == '__main__':
 	app.secret_key = "unknown_cookie_values_present_here_so_that_it_remains_secret"
 	app.debug = True
-	app.run(host='0.0.0.0', port=5000)
+	port = int(os.environ.get('PORT', 5000))
+	app.run(host='0.0.0.0', port)
