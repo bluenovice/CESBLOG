@@ -19,7 +19,7 @@ def hash_pass(s,salt= None):
 
 def check_secure_pass(s,password):
 	salt = password.split(',')[1]
-	return password == hash_pass(s,salt)
+	return password == hash_pass(s.encode('utf-8'),salt)
 
 
 app = Flask(__name__)
